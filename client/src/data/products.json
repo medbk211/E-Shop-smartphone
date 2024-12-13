@@ -1,0 +1,123 @@
+[
+    {
+      "id": 1,
+      "image": "/pistachio.png",
+      "title": "Boîte de conservation",
+      "brand": "PYREX",
+      "description": "1L Ref: 211P0007346",
+      "originalPrice": "28,791 DT",
+      "discountedPrice": "17,900 DT",
+      "promotion": true
+    },
+    {
+      "id": 2,
+      "image": "/amandes.png",
+      "title": "Drap plat",
+      "brand": "sss",
+      "description": "La combinaison des vertus du miel de jujubier avec les bienfaits des fruits secs crée une délicieuse sensation de bien-être inégalée",
+      "originalPrice": "29,500",
+      "discountedPrice": "31,900 DT",
+      "promotion": false
+    },
+    {
+      "id": 3,
+      "image": "/noisette.png",
+      "title": "Rouge à lèvres",
+      "brand": "MAYBELLINE",
+      "description": "N°5 Super Stay Matte Ink",
+      "originalPrice": "51,900",
+      "discountedPrice": "51,900 DT",
+      "promotion": false
+    },
+    {
+      "id": 4,
+      "image": "https://via.placeholder.com/150",
+      "title": "Brosse brushing",
+      "brand": "CRISTAL",
+      "description": "REF8046",
+      "originalPrice": "",
+      "discountedPrice": "15,290 DT",
+      "promotion": false
+    },
+    {
+      "id": 5,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 6,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 7,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 8,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 9,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 10,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 11,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    },
+    {
+      "id": 12,
+      "image": "https://via.placeholder.com/150",
+      "title": "Aliment pour chat",
+      "brand": "GATTOUS",
+      "description": "400GR Thon-Poulet",
+      "originalPrice": "4,350 DT",
+      "discountedPrice": "3,990 DT",
+      "promotion": true
+    }
+  ]
+  
