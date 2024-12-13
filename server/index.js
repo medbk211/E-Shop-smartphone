@@ -9,11 +9,14 @@ const fs = require('fs');
 // Importer les routes
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
-const usersRoutes = require('./routes/usersRoutes');  // Correction ici
+const usersRoutes = require('./routes/usersRoutes'); // Correction ici
 
 const app = express();
 
-
+// Middleware
+app.use(cors());
+app.use(bodyParser.json()); // Corrigé : placé au bon endroit pour traiter les JSON entrants
+app.use(bodyParser.urlencoded({ extended: true })); // Pour traiter les formulaires encodés en URL
 
 // Connexion à MongoDB
 mongoose
@@ -30,10 +33,9 @@ if (!fs.existsSync(uploadDir)) {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/product', productRoutes);
-app.use('/api/users', usersRoutes);  // Correction ici  
-
-app.use('/uploads', express.static(uploadDir));  
+app.use('/api/users', usersRoutes);
+app.use('/uploads', express.static(uploadDir));
 
 // Démarrage du serveur
-const PORT = process.env.PORT || 5000;     
-app.listen(PORT, () => console.log(`Serveur en cours d'exécution sur le port ${PORT}`));    
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Serveur en cours d'exécution sur le port ${PORT}`));
