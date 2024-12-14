@@ -1,67 +1,104 @@
 import React from "react";
 import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ContactForm = () => {
   return (
-    <div className="mt-20 flex flex-col lg:flex-row items-start lg:items-center justify-center lg:justify-between bg-gray-50 p-6 lg:p-12 space-y-8 lg:space-y-0 lg:space-x-12">
+    <div
+      className="mt-20 flex flex-col lg:flex-row items-start lg:items-stretch justify-center lg:justify-between p-8 lg:p-16 gap-12"
+      style={{
+        backgroundImage: "url('/image211.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Left Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6 lg:w-1/3">
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold flex items-center space-x-2 text-gray-800">
-            <FaPhoneAlt className="text-yellow-400 text-2xl" />
-            <span>Call To Us</span>
+      <motion.div
+        className="bg-white shadow-xl rounded-xl p-8 lg:w-1/3 border-l-4 border-orange-500"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
+      >
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold flex items-center gap-3 text-green-800">
+            <FaPhoneAlt className="text-orange-400 text-3xl" />
+            <span>Appelez-nous</span>
           </h3>
-          <p className="text-gray-600 mt-2">We are available 24/7, 7 days a week.</p>
-          <p className="text-gray-800 font-medium mt-1">Phone: +8801611112222</p>
+          <p className="text-gray-600 mt-2 text-lg">
+            Nous sommes disponibles 7j/7 pour répondre à vos questions.
+          </p>
+          <p className="text-gray-800 font-medium mt-4 text-lg">📞 +216 98 123 456</p>
         </div>
-        <hr className="border-yellow-400 my-4" />
+        <hr className="border-t-2 border-orange-300 my-6" />
         <div>
-          <h3 className="text-xl font-semibold flex items-center space-x-2 text-gray-800">
-            <FaEnvelope className="text-yellow-400 text-2xl" />
-            <span>Write To Us</span>
+          <h3 className="text-2xl font-bold flex items-center gap-3 text-green-800">
+            <FaEnvelope className="text-orange-400 text-3xl" />
+            <span>Envoyez-nous un email</span>
           </h3>
-          <p className="text-gray-600 mt-2">Fill out our form and we will contact you within 24 hours.</p>
-          <p className="text-gray-800 font-medium mt-1">Emails: customer@exclusive.com</p>
-          <p className="text-gray-800 font-medium">support@exclusive.com</p>
+          <p className="text-gray-600 mt-2 text-lg">
+            Remplissez le formulaire ci-dessous, et nous vous répondrons sous 24 heures.
+          </p>
+          <p className="text-gray-800 font-medium mt-4 text-lg">
+            ✉️ contact@fruitssecs.com
+          </p>
+          <p className="text-gray-800 font-medium">✉️ support@fruitssecs.com</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Right Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6 lg:w-2/3 border-2 border-yellow-400">
-        <form className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <input
-              type="text"
-              placeholder="Your Name *"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              required
-            />
-            <input
-              type="email"
-              placeholder="Your Email *"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              required
-            />
-            <input
-              type="tel"
-              placeholder="Your Phone *"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              required
-            />
-          </div>
-          <textarea
-            placeholder="Your Message"
-            rows="4"
-            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          ></textarea>
-          <button
-            type="submit"
-            className="w-full lg:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-400 transition duration-300"
+      <motion.div
+        className="bg-white shadow-xl rounded-xl p-8 lg:w-2/3 border-l-4 border-green-500"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
+      >
+        <form className="space-y-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Send Message
-          </button>
+            <motion.input
+              type="text"
+              placeholder="Votre Nom *"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300"
+              required
+              whileFocus={{ scale: 1.02 }}
+            />
+            <motion.input
+              type="email"
+              placeholder="Votre Email *"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300"
+              required
+              whileFocus={{ scale: 1.02 }}
+            />
+            <motion.input
+              type="tel"
+              placeholder="Votre Téléphone *"
+              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300"
+              required
+              whileFocus={{ scale: 1.02 }}
+            />
+          </motion.div>
+          <motion.textarea
+            placeholder="Votre Message"
+            rows="5"
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300"
+            whileFocus={{ scale: 1.02 }}
+          ></motion.textarea>
+          <motion.button
+            type="submit"
+            className="w-full md:w-auto bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-500 transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Envoyer le Message
+          </motion.button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

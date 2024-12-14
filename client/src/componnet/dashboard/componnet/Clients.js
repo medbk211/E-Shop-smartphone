@@ -28,6 +28,7 @@ const Clients = () => {
     const newClient = {
       username: 'Nouveau Client',
       email: 'newclient@example.com',
+      
       password: '123456', // Ce n'est pas une bonne pratique de définir un mot de passe en dur
     };
     try {

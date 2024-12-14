@@ -1,5 +1,5 @@
 const User = require('../models/user'); // Assurez-vous que votre modèle d'utilisateur est défini
-
+const mongoose = require('mongoose');
 // Récupérer tous les utilisateurs (clients)
 exports.getAllUsers = async (req, res) => {
   try {
@@ -25,10 +25,20 @@ exports.addClient = async (req, res) => {
 // Supprimer un client
 exports.deleteClient = async (req, res) => {
   const { id } = req.params;
+
+  // Vérification si l'ID est valide
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'ID invalide' });
+  }
+
   try {
-    await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
     res.status(200).json({ message: 'Client supprimé avec succès' });
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la suppression du client', error: err.message });
   }
 };
+

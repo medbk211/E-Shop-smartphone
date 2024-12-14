@@ -15,6 +15,8 @@ import { getAllProducts } from "../componnet/dashboard/componnet/productAPI";
 import ProductDetails from '../componnet/ProductDetails'
 
 
+
+
 function RoutesPages() {
   const [cart, setCart] = useState([]);
   const [favoris, setFavoris] = useState([]);
@@ -107,8 +109,11 @@ function RoutesPages() {
         </Routes>
       ) : (
         <>
+        
           <Navbar favoriteCount={favoris.length} cartCount={cart.length} />
+         
           <main className="min-h-screen">
+         
             <Routes>
               <Route path="/" element={<Navigate to="/login" />} />
               <Route
@@ -126,6 +131,7 @@ function RoutesPages() {
                 }
               />
               <Route path="/product/:id" element={<ProductPage addToCart={addToCart} />} />
+              
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route
