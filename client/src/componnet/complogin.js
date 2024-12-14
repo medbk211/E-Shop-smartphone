@@ -1,143 +1,130 @@
-// Importations nécessaires
-import { Link } from 'react-router-dom'; // Pour la navigation entre les pages
-import React, { useState, useEffect } from 'react'; // Hooks React pour gérer l'état et les effets
-import axios from 'axios'; // Pour effectuer des requêtes HTTP
-import { useNavigate } from 'react-router-dom'; // Pour naviguer programmatique
-
-import Spinner from './Spinner'; // Composant de chargement
+import { Link } from 'react-router-dom'; 
+import React, { useState, useEffect } from 'react'; 
+import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom'; 
+import { motion } from 'framer-motion'; // Import de Framer Motion
+import Spinner from './Spinner'; 
 
 const Complogin = () => {
-  // Déclaration des états
-  const [email, setEmail] = useState(''); // Stocker l'email saisi par l'utilisateur
-  const [password, setPassword] = useState(''); // Stocker le mot de passe saisi
-  const [error, setError] = useState(''); // Gérer les erreurs
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true); // État de chargement
-  const navigate = useNavigate(); // Hook pour naviguer entre les pages
-
-  // Effet pour simuler un chargement initial
   useEffect(() => {
-    setTimeout(() => setLoading(false), 500); // Après 3 secondes, désactiver le chargement
+    setTimeout(() => setLoading(false), 500);
   }, []);
 
-  // Gestion de la soumission du formulaire
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêcher le rechargement de la page
-    setLoading(true); // Activer l'état de chargement
-    
+    e.preventDefault();
+    setLoading(true);
+
     try {
-      // Effectuer une requête POST vers le backend pour se connecter
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-  
-      // Stocker le token et le nom d'utilisateur dans localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('username', response.data.username);
-  
-      // Afficher une notification de succès
-     
-  
-      // Rediriger l'utilisateur vers la page d'accueil
-      setLoading(false); // Désactiver le chargement
+      setLoading(false);
       navigate('/home');
-      window.location.reload(); // Recharger la page pour mettre à jour l'état global
+      window.location.reload();
     } catch (err) {
-      // Gérer les erreurs (ex. : email ou mot de passe incorrect)
       const errorMsg = err.response?.data?.message || 'Email ou mot de passe incorrect.';
       setError(errorMsg);
-      setLoading(false); // Désactiver le chargement
-      setTimeout(() => setError(""), 3000); // Effacer l'erreur après 3 secondes
+      setLoading(false);
+      setTimeout(() => setError(""), 3000);
     }
   };
 
-  // Affichage du spinner si l'état de chargement est actif
   if (loading) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div> {/* Calque semi-transparent */}
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <Spinner />
       </div>
     );
   }
-  
-  
-  
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-blue-50">
-      {/* Conteneur principal */}
-      <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg max-w-4xl w-full p-8">
-        
-        {/* Section image */}
+    <div className="min-h-screen flex justify-center items-center bg-green-50">
+      <motion.div 
+        className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg max-w-4xl w-full p-8"
+        initial={{ opacity: 0, scale: 0.8 }} 
+        animate={{ opacity: 1, scale: 1 }} 
+        transition={{ duration: 0.6 }}
+      >
         <div className="flex-1 p-4">
           <div className="relative">
-            <img
-              src="/signeup.png" // Chemin vers l'image
-              alt="Shopping cart and phone" // Texte alternatif pour l'accessibilité
-              className="inset-0 w-full h-full object-contain rounded-md" // Styles de l'image
+            <motion.img
+              src="/signeup.png"
+              alt="Shopping cart and phone"
+              className="inset-0 w-full h-full object-contain rounded-md"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
             />
           </div>
         </div>
 
-        {/* Section formulaire */}
         <div className="flex-1 flex flex-col justify-center">
-          {/* Afficher un message d'erreur si nécessaire */}
           {error && (
-            <p
-              className={`text-red-500 text-center mt-4 transition-opacity duration-500 ${
-                error ? "opacity-100" : "opacity-0"
-              }`}
+            <motion.p
+              className="text-red-500 text-center mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
             >
               {error}
-            </p>
+            </motion.p>
           )}
 
-          {/* Titre du formulaire */}
-          <h2 className="flex justify-center text-3xl font-semibold mb-6">Log in to Exclusive</h2>
+          <h2 className="flex justify-center text-3xl font-semibold mb-6 text-orange-600">Log in to Exclusive</h2>
 
-          {/* Formulaire de connexion */}
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* Champ email */}
-            <input
+            <motion.input
               type="email"
               placeholder="Email"
-              aria-label="Email" // Accessibilité
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // Mise à jour de l'état email
+              onChange={(e) => setEmail(e.target.value)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             />
-
-            {/* Champ mot de passe */}
-            <input
+            <motion.input
               type="password"
               placeholder="Password"
-              aria-label="Password" // Accessibilité
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // Mise à jour de l'état password
+              onChange={(e) => setPassword(e.target.value)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
             />
-
-            {/* Bouton de connexion */}
-            <div className="flex justify-center mt-4">
+            <motion.div
+              className="flex justify-center mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               <button
                 type="submit"
-                className="w-full bg-red-500 text-white py-2 rounded-md font-semibold mt-4 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full bg-orange-600 text-white py-2 rounded-md font-semibold mt-4 hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 Log In
               </button>
-
-          
-            </div>
+            </motion.div>
           </form>
 
-          {/* Lien vers la page d'inscription */}
           <div className="text-center mt-4 text-gray-500">
             Vous n'avez pas de compte ?{" "}
-            <Link to="/SignUp" className="text-blue-500">
+            <Link to="/SignUp" className="text-green-500 hover:text-green-700">
               Inscrivez-vous
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
