@@ -15,28 +15,20 @@ const ProductCarousel = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const visibleProducts = products.slice(currentIndex, currentIndex + 3);
 
-  const goLeft = () => {
-    setCurrentIndex((prev) => (prev === 0 ? products.length - 3 : prev - 1));
+  const changeIndex = (direction) => {
+    setCurrentIndex((prev) =>
+      direction === "left"
+        ? (prev === 0 ? products.length - 3 : prev - 1)
+        : (prev + 3 >= products.length ? 0 : prev + 1)
+    );
   };
 
-  const goRight = () => {
-    setCurrentIndex((prev) => (prev + 3 >= products.length ? 0 : prev + 1));
+  const toggleFavorite = (product) => {
+    isInFavoris(product.id) ? removeFromFavorise(product.id) : addFavorise(product);
   };
 
-  const handleFavoriseClick = (product) => {
-    if (isInFavoris(product.id)) {
-      removeFromFavorise(product.id);
-    } else {
-      addFavorise(product);
-    }
-  };
-
-  const handleCartClick = (product) => {
-    if (isInCart(product.id)) {
-      removeFromCart(product);
-    } else {
-      addToCart(product);
-    }
+  const toggleCart = (product) => {
+    isInCart(product.id) ? removeFromCart(product) : addToCart(product);
   };
 
   if (products.length === 0) {
@@ -52,7 +44,7 @@ const ProductCarousel = ({
         <div className="relative">
           {/* Bouton gauche */}
           <motion.button
-            onClick={goLeft}
+            onClick={() => changeIndex("left")}
             whileHover={{ scale: 1.2, rotate: -10 }}
             className="absolute top-1/2 transform -translate-y-1/2 left-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-yellow-200 transition"
           >
@@ -65,24 +57,19 @@ const ProductCarousel = ({
               <motion.div
                 key={product.id}
                 className="flex-shrink-0 w-64 md:w-72 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl transition"
-                whileHover={{ scale: 1.1, x: 5 }} 
-                transition={{ type: "spring", stiffness: 300 }}
+                whileHover={{ scale: 1.05 }}
               >
-                {/* Lien vers le produit */}
                 <Link to={`/product/${product.id}`} className="block">
-                  {/* Image du produit */}
                   <div className="relative h-40 md:h-48">
                     {product.promotion && (
                       <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
                         Promotion
                       </span>
                     )}
-                    <motion.img
+                    <img
                       src={product.image}
                       alt={product.title}
                       className="w-full h-full p-2 rounded-lg object-cover"
-                      whileHover={{ scale: 1.15 }}
-                      transition={{ duration: 0.3 }}
                     />
                   </div>
                   <div className="p-4">
@@ -96,7 +83,6 @@ const ProductCarousel = ({
                           {product.originalPrice} TND
                         </span>
                       )}
-                      <p className="text-xs text-gray-600">AU KG</p>
                       <span className="text-red-500 font-bold">
                         {product.discountedPrice} TND
                       </span>
@@ -104,32 +90,22 @@ const ProductCarousel = ({
                   </div>
                 </Link>
 
-                {/* Actions : Favoris et Panier */}
+                {/* Actions */}
                 <div className="flex justify-between p-4 border-t">
-                  <motion.button
-                    onClick={() => handleFavoriseClick(product)}
-                    whileTap={{ scale: 0.8 }}
-                    className="text-2xl"
-                    whileHover={{ rotate: 15 }}
-                  >
+                  <button onClick={() => toggleFavorite(product)}>
                     <FaRegStar
-                      className={`transition-colors duration-300 ${
+                      className={`text-2xl transition-colors duration-300 ${
                         isInFavoris(product.id) ? "text-yellow-500" : "text-gray-400"
                       }`}
                     />
-                  </motion.button>
-
-                  <motion.button
-                    onClick={() => handleCartClick(product)}
-                    whileTap={{ scale: 0.8 }}
-                    className="text-2xl"
-                  >
+                  </button>
+                  <button onClick={() => toggleCart(product)}>
                     <FaShoppingCart
-                      className={`transition-colors duration-300 ${
+                      className={`text-2xl transition-colors duration-300 ${
                         isInCart(product.id) ? "text-yellow-500" : "text-gray-400"
                       }`}
                     />
-                  </motion.button>
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -137,7 +113,7 @@ const ProductCarousel = ({
 
           {/* Bouton droit */}
           <motion.button
-            onClick={goRight}
+            onClick={() => changeIndex("right")}
             whileHover={{ scale: 1.2, rotate: 10 }}
             className="absolute top-1/2 transform -translate-y-1/2 right-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-yellow-200 transition"
           >

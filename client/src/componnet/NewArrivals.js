@@ -17,7 +17,7 @@ const ProductGrid = ({ products, addToCart }) => {
   }, [products, selectedCategory]);
 
   return (
-    <div className="relative min-h-screen bg-[#F5E9DA] pb-10 overflow-hidden">
+    <div className="relative min-h-screen bg-[#F5E9DA] pb-10 overflow-hidden mt-24">
       {/* Formes décoratives en arrière-plan */}
       <div className="absolute top-0 -left-20 w-80 h-80 bg-[#D2B48C] opacity-20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 -right-20 w-80 h-80 bg-[#8B9A46] opacity-20 rounded-full blur-3xl"></div>
@@ -101,6 +101,8 @@ const ProductCard = ({ product, addToCart }) => {
           <motion.button
             className="bg-gradient-to-r from-[#8B9A46] to-[#F2A65A] text-white px-3 py-1 rounded-full shadow-lg hover:scale-110 transition"
             whileTap={{ scale: 0.9 }}
+            onClick={() => addToCart(product)}
+            aria-label={`Ajouter ${product.title} au panier`}
           >
             <FaShoppingCart />
           </motion.button>

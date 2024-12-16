@@ -5,7 +5,7 @@ import NewArrivals from "../componnet/NewArrivals";
 import FeaturesSection from "../componnet/FeaturesSection";
 import About from "../componnet/About";
 import ContactForm from "../componnet/ContactForm";
-import TeamCards from "../componnet/TeamCard";
+
 import StatisticsCards from "../componnet/StatisticsCards";
 // import FeaturesSection from "../componnet/FeaturesSection";
 
@@ -30,7 +30,7 @@ export default function Home({
         removeFromFavorise={removeFromFavorise}
         isInFavoris={isInFavoris}
       />
-      <FeaturesSection />
+      
       <About />
       <NewArrivals
        products={products}
@@ -39,7 +39,7 @@ export default function Home({
       />
        <StatisticsCards/>
       <ContactForm/>
-      <TeamCards/>
+      <FeaturesSection />
     </div>
   );
 }

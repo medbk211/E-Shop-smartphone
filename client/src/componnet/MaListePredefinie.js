@@ -31,10 +31,8 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
   };
 
   return (
-    <div className="mt-1 py-8 mx-5 my-2">
-      <h2 className="mt-10 text-3xl font-extrabold text-center text-gradient bg-gradient-to-r from-yellow-500 to-red-500 animate-pulse">
-        Ma liste prédéfinie
-      </h2>
+    <div className="mt-10 py-8 mx-10 my-2 ">
+     
 
       {/* Favorite List Summary */}
       <div className="mt-10 overflow-x-auto">

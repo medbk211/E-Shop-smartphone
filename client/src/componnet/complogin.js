@@ -45,7 +45,7 @@ const Complogin = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-green-50">
+    <div className="min-h-screen flex justify-center items-center bg-green-50 mt-12">
       <motion.div 
         className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg max-w-4xl w-full p-8"
         initial={{ opacity: 0, scale: 0.8 }} 
@@ -77,7 +77,7 @@ const Complogin = () => {
             </motion.p>
           )}
 
-          <h2 className="flex justify-center text-3xl font-semibold mb-6 text-orange-600">Log in to Exclusive</h2>
+          <h2 className="flex justify-center text-3xl font-semibold mb-6 text-orange-600">Log in to E-SHOP</h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <motion.input

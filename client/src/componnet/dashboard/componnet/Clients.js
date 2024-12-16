@@ -1,50 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Clients = () => {
+const Clients = ({ setClientCount }) => {  // Accept setClientCount as a prop
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Récupérer tous les clients via l'API backend
   useEffect(() => {
     const fetchClients = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/users/getAllClients');
-        setClients(response.data.users); // Assurez-vous que la structure est correcte
+        setClients(response.data.users);
+        setClientCount(response.data.users.length); // Set the client count here
       } catch (error) {
         console.error('Erreur lors de la récupération des clients:', error);
       }
     };
     fetchClients();
-  }, []);
+  }, [setClientCount]);
 
-  // Filtrer les clients par nom
   const filteredClients = clients.filter((client) =>
-    client.username.toLowerCase().includes(searchTerm.toLowerCase()) // Filtrage par nom d'utilisateur
+    client.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Ajouter un client
   const handleAddClient = async () => {
     const newClient = {
       username: 'Nouveau Client',
       email: 'newclient@example.com',
-      
-      password: '123456', // Ce n'est pas une bonne pratique de définir un mot de passe en dur
+      password: '123456',
     };
     try {
       const response = await axios.post('http://localhost:5000/api/users/addClient', newClient);
       setClients([...clients, response.data.client]);
+      setClientCount(clients.length + 1); // Update the client count after adding a client
     } catch (error) {
       console.error('Erreur lors de l\'ajout du client:', error);
     }
   };
 
-  // Supprimer un client
   const handleDeleteClient = async (id) => {
     if (window.confirm('Voulez-vous vraiment supprimer ce client ?')) {
       try {
         await axios.delete(`/http://localhost:5000/api/users/deleteClient/${id}`);
         setClients(clients.filter(client => client._id !== id));
+        setClientCount(clients.length - 1); // Update the client count after deleting a client
       } catch (error) {
         console.error('Erreur lors de la suppression du client:', error);
       }

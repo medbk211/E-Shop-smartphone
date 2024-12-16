@@ -138,7 +138,7 @@ function RoutesPages() {
                 path="/cart"
                 element={<CartPage cart={cart} updateCartQuantity={updateCartQuantity} removeFromCart={removeFromCart} />}
               />
-              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/product" element={<ProductDetails />} />
 
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />

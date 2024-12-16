@@ -49,7 +49,7 @@ const Navbar = ({ favoriteCount = 0, cartCount = 0 }) => {
   };
 
   return (
-    <header className={`fixed top-0 w-full ${isDarkMode ? 'bg-green-800 text-white' : 'bg-yellow-500 text-black'} shadow-md z-50`}>
+    <header className={`fixed top-0 w-full ${isDarkMode ? 'bg-green-800 text-white' : 'bg-gradient-to-r from-yellow-500 via-orange-400 to-red-500 text-black'} shadow-md z-50`}>
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-2xl font-extrabold">
           {/* Logo with Framer Motion */}
