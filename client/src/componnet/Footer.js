@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-yellow-500 via-orange-400 to-red-500 text-gray-100 py-10">
+    <footer className="bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-700 text-gray-100 py-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Section 1: Logo et Description */}
@@ -31,7 +31,7 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={`/${link.toLowerCase()}`}
-                    className="hover:underline hover:text-yellow-200 transition"
+                    className="hover:underline hover:text-blue-200 transition"
                   >
                     {link}
                   </a>

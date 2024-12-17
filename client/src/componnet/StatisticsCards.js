@@ -6,35 +6,35 @@ const StatisticsCards = () => {
   const stats = [
     {
       id: 1,
-      icon: <FaSeedling className="text-5xl text-green-700" />,
+      icon: <FaSeedling className="text-5xl text-blue-500" />, // Bleu pour l'icône
       value: '8,000+',
       label: 'Variétés de fruits secs',
-      bgColor: 'bg-gradient-to-r from-[#fef8e0] to-[#f9d776]', // Dégradé jaune-doré
-      textColor: 'text-[#5b341b]', // Marron foncé
+      bgColor: 'bg-gradient-to-r from-[#6a4c9c] to-[#4e3483]', // Dégradé violet
+      textColor: 'text-[#2c1a55]', // Gris foncé pour le texte
     },
     {
       id: 2,
-      icon: <FaTree className="text-5xl text-orange-600" />,
+      icon: <FaTree className="text-5xl text-purple-600" />, // Violet pour l'icône
       value: '120+',
       label: 'Fermes partenaires bio',
-      bgColor: 'bg-gradient-to-r from-[#ffe3d8] to-[#ffa985]', // Dégradé pêche
-      textColor: 'text-[#4e2e16]', // Marron chaud
+      bgColor: 'bg-gradient-to-r from-[#7f5a8b] to-[#9c4e97]', // Dégradé violet foncé à violet clair
+      textColor: 'text-[#2b1d3b]', // Gris foncé
     },
     {
       id: 3,
-      icon: <FaShippingFast className="text-5xl text-blue-700" />,
+      icon: <FaShippingFast className="text-5xl text-indigo-500" />, // Indigo pour l'icône
       value: '24H',
       label: 'Livraison rapide et sûre',
-      bgColor: 'bg-gradient-to-r from-[#e0f7fa] to-[#80d9e9]', // Dégradé bleu clair
-      textColor: 'text-[#2b4b5f]', // Bleu foncé
+      bgColor: 'bg-gradient-to-r from-[#a7c7e7] to-[#5a6b9b]', // Dégradé bleu clair
+      textColor: 'text-[#1d3a5a]', // Gris bleu pour le texte
     },
     {
       id: 4,
-      icon: <FaCoins className="text-5xl text-yellow-500" />,
+      icon: <FaCoins className="text-5xl text-gray-400" />, // Gris clair pour l'icône
       value: '100K€',
       label: 'Chiffre d’affaires annuel',
-      bgColor: 'bg-gradient-to-r from-[#fff8dc] to-[#fcd34d]', // Dégradé doré
-      textColor: 'text-[#5c3a00]', // Brun doré
+      bgColor: 'bg-gradient-to-r from-[#e3e3e3] to-[#b1b1b1]', // Dégradé gris clair
+      textColor: 'text-[#333333]', // Gris foncé pour le texte
     },
   ];
 
@@ -49,6 +49,7 @@ const StatisticsCards = () => {
             rotate: 1,
             boxShadow: '0px 15px 30px rgba(0, 0, 0, 0.3)',
           }}
+          aria-label={stat.label}
         >
           <motion.div
             whileHover={{ scale: 1.5, rotate: -5 }}

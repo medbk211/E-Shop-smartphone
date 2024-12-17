@@ -62,16 +62,16 @@ const Hero = () => {
       {/* Contenu */}
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
-          Bienvenue chez <span className="text-yellow-400">E-Shop</span>
+          Bienvenue chez <span className="text-blue-400">GSM Shop</span>
         </h1>
         <p className="mt-4 text-lg sm:text-xl max-w-3xl">
-          Découvrez nos dernières collections de fruits secs premium.
+          Découvrez nos derniers accessoires GSM haut de gamme. 
           Profitez d'offres exclusives dès aujourd'hui !
         </p>
         <div className="mt-8 flex justify-center gap-4">
           <a
-            href="/"
-            className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition duration-300"
+            href="/shop"
+            className="px-6 py-3 bg-blue-400 text-black font-semibold rounded-lg hover:bg-blue-500 transition duration-300"
           >
             Commencez à Acheter
           </a>
@@ -91,7 +91,7 @@ const Hero = () => {
             key={index}
             className={`w-3 h-3 rounded-full ${
               index === currentImageIndex
-                ? 'bg-yellow-400'
+                ? 'bg-blue-400'
                 : 'bg-gray-400'
             }`}
             onClick={() => setCurrentImageIndex(index)}

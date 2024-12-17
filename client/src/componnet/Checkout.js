@@ -52,7 +52,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
     items: cart || [],
   });
 
-  // Validation de champ
   const validateField = (section, field, value) => {
     let error = "";
     if (!value) error = "Ce champ est obligatoire";
@@ -105,18 +104,16 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
     setOpenSection(openSection === section ? null : section);
   };
 
-  // Calculer le total avec la taxe
   const totalWithoutStamp = orderData.items.reduce((total, item) => total + item.price * item.quantity, 0);
   const totalWithStamp = calculateTotalWithStamp(totalWithoutStamp);
 
-  // Vérifier si le formulaire est valide
   const isFormValid = Object.values(orderData.personalInfo).every((field) => field.trim() !== "") &&
     Object.values(orderData.addresses).every((field) => field.trim() !== "");
 
   return (
-    <div className="bg-main min-h-screen py-8 px-4">
+    <div className="bg-gray-50 min-h-screen py-8 px-4">
       <div className="container mx-auto max-w-5xl bg-white shadow-lg rounded-lg p-4">
-        <h1 className="text-2xl font-bold text-primary mb-4">Processus de Paiement</h1>
+        <h1 className="text-3xl font-bold text-blue-600 mb-4">Processus de Paiement</h1>
         <ProgressBar step={openSection} />
         <div className="flex flex-col lg:flex-row">
           <div className="lg:w-2/3 border-r border-gray-300">
@@ -149,7 +146,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     </label>
                   </div>
                 </div>
-                {/* Prénom */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Prénom *</label>
                   <input
@@ -157,7 +153,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.personalInfo.firstName}
                     onChange={(e) => handleInputChange("personalInfo", "firstName", e.target.value)}
                     onBlur={() => validateField("personalInfo", "firstName", orderData.personalInfo.firstName)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["personalInfo.firstName"] && (
@@ -165,7 +161,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                   )}
                 </div>
 
-                {/* Nom */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Nom *</label>
                   <input
@@ -173,7 +168,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.personalInfo.lastName}
                     onChange={(e) => handleInputChange("personalInfo", "lastName", e.target.value)}
                     onBlur={() => validateField("personalInfo", "lastName", orderData.personalInfo.lastName)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["personalInfo.lastName"] && (
@@ -181,7 +176,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                   )}
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Email *</label>
                   <input
@@ -189,7 +183,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.personalInfo.email}
                     onChange={(e) => handleInputChange("personalInfo", "email", e.target.value)}
                     onBlur={() => validateField("personalInfo", "email", orderData.personalInfo.email)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["personalInfo.email"] && (
@@ -205,7 +199,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
               onToggle={() => toggleSection(2)}
             >
               <form className="grid grid-cols-1 gap-4 p-4">
-                {/* Adresse de livraison */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Adresse de livraison *</label>
                   <input
@@ -213,7 +206,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.addresses.shippingAddress}
                     onChange={(e) => handleInputChange("addresses", "shippingAddress", e.target.value)}
                     onBlur={() => validateField("addresses", "shippingAddress", orderData.addresses.shippingAddress)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["addresses.shippingAddress"] && (
@@ -221,14 +214,13 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                   )}
                 </div>
 
-                {/* Ville */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Ville *</label>
                   <select
                     value={orderData.addresses.city}
                     onChange={(e) => handleInputChange("addresses", "city", e.target.value)}
                     onBlur={() => validateField("addresses", "city", orderData.addresses.city)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   >
                     <option value="">Sélectionnez une ville</option>
@@ -241,7 +233,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                   )}
                 </div>
 
-                {/* Code Postal */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Code Postal *</label>
                   <input
@@ -249,7 +240,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.addresses.postalCode}
                     onChange={(e) => handleInputChange("addresses", "postalCode", e.target.value)}
                     onBlur={() => validateField("addresses", "postalCode", orderData.addresses.postalCode)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["addresses.postalCode"] && (
@@ -257,7 +248,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                   )}
                 </div>
 
-                {/* Numéro de téléphone */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Numéro de téléphone *</label>
                   <input
@@ -265,7 +255,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
                     value={orderData.addresses.phoneNumber}
                     onChange={(e) => handleInputChange("addresses", "phoneNumber", e.target.value)}
                     onBlur={() => validateField("addresses", "phoneNumber", orderData.addresses.phoneNumber)}
-                    className="w-full border border-gray-300 rounded-md mt-1 p-2"
+                    className="w-full border border-blue-300 rounded-md mt-1 p-2"
                     required
                   />
                   {errors["addresses.phoneNumber"] && (
@@ -291,7 +281,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
 
             <button
               onClick={handleOrderSubmit}
-              className={`bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-lg mt-4 ${!isFormValid && "opacity-50 cursor-not-allowed"}`}
+              className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg mt-4 ${!isFormValid && "opacity-50 cursor-not-allowed"}`}
               disabled={!isFormValid}
             >
               Confirmer la commande
@@ -327,7 +317,6 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
           Retour à l'accueil
         </button>
       </Modal>
-
     </div>
   );
 };

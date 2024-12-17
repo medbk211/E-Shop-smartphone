@@ -36,17 +36,17 @@ const ProductCarousel = ({
   }
 
   return (
-    <div className="bg-[#f7f5f2] py-8 relative">
+    <div className="bg-[#f0f0f0] py-8 relative">
       <div className="container mx-auto">
-        <h2 className="text-2xl font-semibold text-[#f2c94c] text-center mb-6">
-          <span className="text-yellow-500">🌟</span> Nous recommandons pour vous
+        <h2 className="text-2xl font-semibold text-[#007BFF] text-center mb-6">
+          <span className="text-yellow-500">📱</span> Nos accessoires recommandés
         </h2>
         <div className="relative">
           {/* Bouton gauche */}
           <motion.button
             onClick={() => changeIndex("left")}
             whileHover={{ scale: 1.2, rotate: -10 }}
-            className="absolute top-1/2 transform -translate-y-1/2 left-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-yellow-200 transition"
+            className="absolute top-1/2 transform -translate-y-1/2 left-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-blue-200 transition"
           >
             <FaChevronLeft />
           </motion.button>
@@ -115,7 +115,7 @@ const ProductCarousel = ({
           <motion.button
             onClick={() => changeIndex("right")}
             whileHover={{ scale: 1.2, rotate: 10 }}
-            className="absolute top-1/2 transform -translate-y-1/2 right-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-yellow-200 transition"
+            className="absolute top-1/2 transform -translate-y-1/2 right-4 z-10 p-3 bg-white rounded-full shadow-md hover:bg-blue-200 transition"
           >
             <FaChevronRight />
           </motion.button>
@@ -128,7 +128,7 @@ const ProductCarousel = ({
               key={index}
               className={`w-2 h-2 mx-1 rounded-full ${
                 index >= currentIndex && index < currentIndex + 3
-                  ? "bg-yellow-500"
+                  ? "bg-blue-500"
                   : "bg-gray-300"
               }`}
             ></span>

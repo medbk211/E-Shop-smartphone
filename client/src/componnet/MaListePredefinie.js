@@ -7,10 +7,8 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [notification, setNotification] = useState({ show: false, message: "", type: "" });
 
-  // Toggle menu visibility
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
-  // Remove a product from favorites
   const handleRemove = (product) => {
     removeFromFavorise(product.id);
     setNotification({
@@ -20,7 +18,6 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
     });
   };
 
-  // Add all favorite products to the cart
   const handleAddToCart = () => {
     favoris.forEach((product) => addToCart(product));
     setNotification({
@@ -31,74 +28,67 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
   };
 
   return (
-    <div className="mt-10 py-8 mx-10 my-2 ">
-     
+    <div className="mt-10 py-8 mx-10 my-2">
+      {/* Titre principal */}
+      <div className="text-center mb-8 mt-8">
+        <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+          Ma Liste Prédéfinie
+        </h1>
+      </div>
 
-      {/* Favorite List Summary */}
-      <div className="mt-10 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 rounded-3xl px-4">
-          <thead className="bg-gradient-to-r from-yellow-400 to-orange-500">
+      {/* Tableau des favoris */}
+      <div className="overflow-hidden rounded-lg shadow-lg">
+        <table className="w-full bg-gradient-to-br from-gray-100 to-white rounded-lg shadow-md">
+          <thead className="bg-gradient-to-r from-indigo-500 to-blue-700 text-white">
             <tr>
-              <th className="px-7 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
-                Nom
-              </th>
-              <th className="px-7 py-3 text-right text-xs font-bold text-white uppercase tracking-wider">
-                Produits
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-bold uppercase">Nom</th>
+              <th className="px-6 py-3 text-right text-xs font-bold uppercase">Produits</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            <tr className="border hover:bg-gray-100 transition duration-300">
+          <tbody className="divide-y divide-gray-200">
+            <tr className="hover:bg-gray-200 transition-all duration-300">
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
                   onClick={toggleMenu}
-                  className="text-blue-500 hover:text-blue-600 underline transition duration-300"
+                  className="text-blue-500 hover:text-indigo-600 underline transition duration-300"
                 >
-                  Ma liste prédéfinie
+                  Voir mes produits favoris
                 </button>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right">{favoris.length}</td>
+              <td className="px-6 py-4 text-right font-semibold text-gray-700">
+                {favoris.length}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Favorite Products */}
+      {/* Section des produits favoris */}
       {isMenuOpen && (
-        <div className="container mx-auto px-4 py-8">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {favoris.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {favoris.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  handleRemove={handleRemove}
-                />
-              ))}
-            </div>
+            favoris.map((product) => (
+              <ProductCard key={product.id} product={product} handleRemove={handleRemove} />
+            ))
           ) : (
-            <div className="p-4 text-center mt-4">
-              <img
-                src="/empty-state.png"
-                alt="Aucun produit favori"
-                className="mx-auto w-40 opacity-80 hover:opacity-100 transition duration-300"
-              />
-              <p className="text-gray-500">Aucun produit favori trouvé.</p>
-            </div>
+            <EmptyState />
           )}
-          <div className="mt-8 flex justify-center">
-            <button
-              className="bg-green-500 text-white py-2 px-6 rounded-md shadow-lg hover:bg-green-600 hover:scale-105 transform transition duration-300"
-              onClick={handleAddToCart}
-              disabled={favoris.length === 0}
-            >
-              Ajouter les produits au panier
-            </button>
-          </div>
         </div>
       )}
 
-      {/* Notification Component */}
+      {/* Bouton pour ajouter au panier */}
+      {favoris.length > 0 && (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={handleAddToCart}
+            className="bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:scale-105 transform transition duration-300"
+          >
+            Ajouter tout au panier
+          </button>
+        </div>
+      )}
+
+      {/* Notification */}
       {notification.show && (
         <Notification
           message={notification.message}
@@ -107,8 +97,9 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
         />
       )}
 
+      {/* Lien vers les achats */}
       <Link to="/home">
-        <button className="relative text-green-500 mt-4 hover:underline flex items-center">
+        <button className="mt-6 text-blue-600 hover:text-indigo-600 underline flex items-center">
           &larr; Continuer mes achats
         </button>
       </Link>
@@ -116,41 +107,39 @@ function MaListePredefinie({ favoris = [], removeFromFavorise, addToCart }) {
   );
 }
 
-// Product Card
+// Carte de produit
 const ProductCard = ({ product, handleRemove }) => {
-  const { image, title } = product;
-
   return (
-    <div className="relative border rounded-lg shadow-md p-4 flex flex-col items-center hover:shadow-lg transform hover:scale-105 transition duration-300">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:scale-105 duration-300">
       <img
-        src={image}
-        alt={title}
-        className="w-32 h-32 object-cover rounded-md mb-2 hover:opacity-90"
+        src={product.image}
+        alt={product.title}
+        className="w-full h-40 object-cover bg-gray-100"
       />
-      <h3 className="text-center font-medium text-gray-700">{title}</h3>
-      <button
-        className="absolute top-2 right-2 text-gray-500 hover:text-red-600 transition duration-300"
-        aria-label={`Retirer ${title} des favoris`}
-        onClick={() => handleRemove(product)}
-      >
-        ✖
-      </button>
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-800">{product.title}</h3>
+        <button
+          onClick={() => handleRemove(product)}
+          className="mt-2 text-red-500 hover:text-red-700 transition duration-300"
+        >
+          Retirer
+        </button>
+      </div>
     </div>
   );
 };
 
-// Prop Types
-MaListePredefinie.propTypes = {
-  favoris: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-    })
-  ),
-  removeFromFavorise: PropTypes.func.isRequired,
-  addToCart: PropTypes.func.isRequired,
-};
+// État vide
+const EmptyState = () => (
+  <div className="text-center mt-10">
+    <img
+      src="/empty-state.png"
+      alt="Aucun produit favori"
+      className="w-32 mx-auto opacity-80 hover:opacity-100 transition duration-300"
+    />
+    <p className="text-gray-500 mt-4">Aucun produit favori trouvé.</p>
+  </div>
+);
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
@@ -159,6 +148,12 @@ ProductCard.propTypes = {
     image: PropTypes.string.isRequired,
   }).isRequired,
   handleRemove: PropTypes.func.isRequired,
+};
+
+MaListePredefinie.propTypes = {
+  favoris: PropTypes.array.isRequired,
+  removeFromFavorise: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
 };
 
 export default MaListePredefinie;
