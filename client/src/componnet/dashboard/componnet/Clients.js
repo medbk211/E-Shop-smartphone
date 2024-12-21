@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
+import api from '../../../api/axiosConfig'
 
 const Clients = ({ setClientCount }) => {  // Accept setClientCount as a prop
   const [clients, setClients] = useState([]);
@@ -8,7 +9,7 @@ const Clients = ({ setClientCount }) => {  // Accept setClientCount as a prop
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/getAllClients');
+        const response = await api.get('users/getAllClients');
         setClients(response.data.users);
         setClientCount(response.data.users.length); // Set the client count here
       } catch (error) {
@@ -29,7 +30,7 @@ const Clients = ({ setClientCount }) => {  // Accept setClientCount as a prop
       password: '123456',
     };
     try {
-      const response = await axios.post('http://localhost:5000/api/users/addClient', newClient);
+      const response = await api.post('users/addClient', newClient);
       setClients([...clients, response.data.client]);
       setClientCount(clients.length + 1); // Update the client count after adding a client
     } catch (error) {
@@ -40,7 +41,7 @@ const Clients = ({ setClientCount }) => {  // Accept setClientCount as a prop
   const handleDeleteClient = async (id) => {
     if (window.confirm('Voulez-vous vraiment supprimer ce client ?')) {
       try {
-        await axios.delete(`/http://localhost:5000/api/users/deleteClient/${id}`);
+        await api.delete(`users/deleteClient/${id}`);
         setClients(clients.filter(client => client._id !== id));
         setClientCount(clients.length - 1); // Update the client count after deleting a client
       } catch (error) {

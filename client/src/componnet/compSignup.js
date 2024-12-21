@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'; 
-import axios from 'axios'; 
+
 import React, { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import { motion } from 'framer-motion'; 
+import api from '../api/axiosConfig'
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -14,7 +15,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', { username, email, password });
+      await api.post('auth/signup', { username, email, password });
       navigate('/login');
     } catch (err) {
       setError('Failed to sign up');

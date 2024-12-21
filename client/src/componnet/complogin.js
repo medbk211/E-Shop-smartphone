@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'; 
 import React, { useState, useEffect } from 'react'; 
-import axios from 'axios'; 
+
 import { useNavigate } from 'react-router-dom'; 
 import { motion } from 'framer-motion'; 
-import Spinner from './Spinner'; 
+import Spinner from './Spinner';
+import api from '../api/axiosConfig' 
 
 const Complogin = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const Complogin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await api.post('auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('username', response.data.username);
       setLoading(false);

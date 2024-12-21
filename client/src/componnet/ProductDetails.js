@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+
+import api from '../api/axiosConfig'
 
 const ProductDetails = ({ handleAddToCart }) => {
   const { id } = useParams(); // Récupération de l'ID depuis l'URL
@@ -11,7 +12,7 @@ const ProductDetails = ({ handleAddToCart }) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/product/${id}`);
+        const response = await api.get(`/product/${id}`);
         setProduct(response.data); // Assurez-vous que votre backend renvoie les données correctes
         setLoading(false);
       } catch (error) {

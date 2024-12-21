@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import axios from 'axios';
 import { FaTimes } from 'react-icons/fa'; // Import the close icon from react-icons
+import api from '../../../api/axiosConfig'
 
 // Reducer for managing the different states
 const orderReducer = (state, action) => {
@@ -38,7 +39,7 @@ const Commandes = ({ setTotalSales }) => {
   const fetchOrders = useCallback(async () => {
     dispatch({ type: 'SET_LOADING' });
     try {
-      const response = await axios.get('http://localhost:5000/api/order/all');
+      const response = await api.get('order/all');
       if (response.data && Array.isArray(response.data)) {
         dispatch({ type: 'FETCH_ORDERS_SUCCESS', payload: response.data });
       } else {
@@ -60,8 +61,8 @@ const Commandes = ({ setTotalSales }) => {
     : state.orders;
 
  const updateStatus = (id, newStatus) => {
-  axios
-    .put(`http://localhost:5000/api/order/${id}/status`, { newStatus })
+  api
+    .put(`order/${id}/status`, { newStatus })
     .then((response) => {
       // Update the local state with the updated order
       dispatch({
