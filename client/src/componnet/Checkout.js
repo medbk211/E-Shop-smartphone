@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import axios from "axios";
+import api from "../api/axiosConfig"
 
 
 // Composant pour la Progress Bar
@@ -86,7 +86,7 @@ const Checkout = ({ calculateTotalWithStamp, cart }) => {
       const totalWithoutStamp = orderData.items.reduce((total, item) => total + item.price * item.quantity, 0);
       const totalWithStamp = calculateTotalWithStamp(totalWithoutStamp);
 
-      const response = await axios.post("http://localhost:5000/api/order/addOrder", {
+      const response = await api.post("order/addOrder", {
         personalInfo: orderData.personalInfo,
         addresses: orderData.addresses,
         items: orderData.items,
