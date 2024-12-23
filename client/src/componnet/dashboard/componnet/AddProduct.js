@@ -6,6 +6,7 @@ const AddProduct = () => {
     title: '',
     brand: '',
     description: '',
+    category:'',
     originalPrice: '',
     discountedPrice: '',
     promotion: false
@@ -84,6 +85,19 @@ const AddProduct = () => {
           />
         </div>
 
+        <div className="mb-4">
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700">category</label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value={productData.category}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            placeholder="category"
+          />
+        </div>
+
         {/* Original Price */}
         <div className="mb-4">
           <label htmlFor="originalPrice" className="block text-sm font-medium text-gray-700">Prix Original</label>
@@ -137,4 +151,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+// export default AddProduct;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const ProductGrid = ({ products, addToCart }) => {
   const [sortedProducts, setSortedProducts] = useState(products);
@@ -74,6 +75,7 @@ const ProductCard = ({ product, addToCart }) => {
       whileHover={{ scale: 1.05 }}
     >
       {/* Image avec zoom et rotation */}
+      <Link to={`/product/${product.id}`} className="block">
       <motion.img
         src={product.image}
         alt={product.title}
@@ -108,6 +110,7 @@ const ProductCard = ({ product, addToCart }) => {
           </motion.button>
         </div>
       </div>
+      </Link>
     </motion.div>
   );
 };

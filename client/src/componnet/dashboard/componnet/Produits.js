@@ -5,6 +5,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // Détermine si on modifie un produit
   const [currentProduct, setCurrentProduct] = useState(null); // Produit en cours d'édition
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: '',
     brand: '',
@@ -16,14 +17,18 @@ const ProductList = () => {
   });
   const [showModal, setShowModal] = useState(false); // Afficher ou masquer la modale
   const [toast, setToast] = useState({ message: '', type: '' }); // Gestion des notifications Toast
-  const [loading, setLoading] = useState(true);
+
+     useEffect(() => {
+       setTimeout(() => setLoading(false), 500);
+     }, []);
+
+
+
+
   const fetchProducts = async () => {
     const response = await getAllProducts();
     setProducts(response.data);
   };
-    useEffect(() => {
-      setTimeout(() => setLoading(false), 500);
-    }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -72,6 +77,7 @@ const ProductList = () => {
         form.append(key, formData[key]);
       }
     });
+    
 
     try {
       if (isEditing && currentProduct) {
@@ -111,16 +117,13 @@ const ProductList = () => {
   // Gérer la suppression d'un produit
   const handleDelete = async (productId) => {
     if (window.confirm('Voulez-vous vraiment supprimer ce produit ?')) {
-      setLoading(true);
       try {
         await deleteProduct(productId);
-        setLoading(false);
         setToast({ message: 'Produit supprimé avec succès !', type: 'success' });
         fetchProducts();
       } catch (error) {
         console.error('Erreur lors de la suppression du produit :', error);
         setToast({ message: 'Impossible de supprimer le produit.', type: 'error' });
-        setLoading(false);
       }
     }
   };
@@ -138,8 +141,6 @@ const ProductList = () => {
       return () => clearTimeout(timer);
     }
   }, [toast]);
-
-
   if (loading) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
@@ -148,7 +149,6 @@ const ProductList = () => {
       </div>
     );
   }
-
 
   return (
     <div className="max-w-6xl mx-auto p-4">
