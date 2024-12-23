@@ -1,12 +1,14 @@
-const Product = require('../models/produit'); // Modèle Mongoose
-const fs = require('fs/promises'); // Utilisation de la version promesse de fs
+// Contrôleur pour les produits (CRUD)
+const Product = require('../models/produit'); // Modèle Mongoose pour les produits
+const fs = require('fs/promises'); // Version promesse de fs pour la suppression des fichiers
 const path = require('path');
-const Joi = require('joi'); // Pour la validation des données
+const Joi = require('joi'); // Validation des données avec Joi
+const cloudinary = require('../config/cloudinary');
 
-// Définir l'URL de base pour les images
+// Définir une URL de base pour les images
 const BASE_IMAGE_URL = 'https://back-end-fehk.onrender.com/uploads/';
 
-// Schéma de validation avec Joi
+// Validation du produit avec Joi
 const productSchema = Joi.object({
   title: Joi.string().required(),
   brand: Joi.string().required(),
@@ -19,22 +21,30 @@ const productSchema = Joi.object({
 // Ajouter un produit
 exports.addProduct = async (req, res) => {
   try {
+    // Validation des données
     const { error } = productSchema.validate(req.body);
-
-    // Validation des champs obligatoires
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
 
+    // Vérification de la présence de l'image
     if (!req.file) {
       return res.status(400).json({ error: 'Une image est obligatoire.' });
     }
 
     const { title, brand, description, originalPrice, discountedPrice, promotion } = req.body;
 
-    // Création du produit
+    // Téléchargement de l'image sur Cloudinary
+    const uploadResult = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({ folder: 'products' }, (error, result) => {
+        if (error) reject(new Error('Erreur lors du téléchargement de l\'image.'));
+        else resolve(result);
+      }).end(req.file.buffer);
+    });
+
+    // Création du produit avec les données et l'image téléchargée
     const product = new Product({
-      image: `${BASE_IMAGE_URL}${req.file.filename}`,
+      image: uploadResult.secure_url,
       title,
       brand,
       description,
@@ -43,7 +53,6 @@ exports.addProduct = async (req, res) => {
       promotion: promotion || false,
     });
 
-    // Sauvegarde du produit
     await product.save();
     res.status(201).json(product);
   } catch (err) {
@@ -80,25 +89,27 @@ exports.getProductByName = async (req, res) => {
 // Mettre à jour un produit
 exports.updateProduct = async (req, res) => {
   try {
-    const { error } = productSchema.validate(req.body, { allowUnknown: true });
-    if (error) {
-      return res.status(400).json({ error: error.details[0].message });
-    }
-
     const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: 'Produit non trouvé.' });
     }
 
-    // Mise à jour de l'image si elle est présente
+    // Mise à jour de l'image sur Cloudinary si une nouvelle image est fournie
     if (req.file) {
-      product.image = `${BASE_IMAGE_URL}${req.file.filename}`;
+      const publicId = product.image.split('/').pop().split('.')[0];
+      await cloudinary.uploader.destroy(`products/${publicId}`);
+      const uploadResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream({ folder: 'products' }, (error, result) => {
+          if (error) reject(new Error('Erreur lors du téléchargement de l\'image.'));
+          else resolve(result);
+        }).end(req.file.buffer);
+      });
+
+      product.image = uploadResult.secure_url;
     }
 
     // Mise à jour des autres champs
     Object.assign(product, req.body);
-
-    // Sauvegarde des modifications
     await product.save();
     res.json(product);
   } catch (err) {
@@ -115,18 +126,18 @@ exports.deleteProduct = async (req, res) => {
       return res.status(404).json({ message: 'Produit non trouvé.' });
     }
 
-    // Suppression de l'image associée
+    // Suppression de l'image associée dans le système de fichiers
     if (product.image) {
       const imagePath = path.join(__dirname, '..', 'uploads', path.basename(product.image));
       try {
-        await fs.unlink(imagePath); // Suppression asynchrone
+        await fs.unlink(imagePath);
         console.log(`Image ${imagePath} supprimée`);
       } catch (err) {
         console.warn(`Impossible de supprimer l'image ${imagePath}: ${err.message}`);
       }
     }
 
-    // Suppression du produit
+    // Suppression du produit dans la base de données
     await product.deleteOne();
     res.json({ message: 'Produit supprimé avec succès.' });
   } catch (err) {

@@ -212,17 +212,23 @@ const Navbar = ({ favoriteCount = 0, cartCount = 0 }) => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button onClick={toggleMenu} className="md:hidden" aria-label="Toggle Mobile Menu">
+        <button
+          onClick={toggleMenu}
+          className="md:hidden relative p-3 bg-primary rounded-lg shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-light"
+          aria-label="Toggle Mobile Menu">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 transition-transform duration-300 ease-in-out"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h18M3 12h18M3 19h18" />
           </svg>
+
+          {/* Add transition when menu is active */}
+
         </button>
 
         {/* Mobile Menu */}

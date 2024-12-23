@@ -65,7 +65,7 @@ const CartPage = ({ cart, removeFromCart }) => {
   const totalWithStamp = calculateTotalWithStamp();
 
   return (
-    <div className="container mx-auto py-8 my-24">
+    <div className=" py-8 my-24 mx-5">
       {!showCheckout && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Section du panier */}
