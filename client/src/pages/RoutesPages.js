@@ -12,10 +12,7 @@ import About from "./About";
 import Contact from "./contact";
 import Dashboard from "../componnet/dashboard/dashboard"; // Importez la page Dashboard
 import { getAllProducts } from "../componnet/dashboard/componnet/productAPI";
-import ProductDetails from '../componnet/ProductDetails'
-
-
-
+import ProductDetails from "../componnet/ProductDetails";
 
 function RoutesPages() {
   const [cart, setCart] = useState([]);
@@ -23,17 +20,17 @@ function RoutesPages() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [products, setProducts] = useState([]);
 
+  // Récupération des produits
   const fetchProducts = async () => {
     try {
       const response = await getAllProducts();
-      // Normalisation des produits pour utiliser "id" au lieu de "_id"
       const normalizedProducts = response.data.map((product) => ({
         ...product,
-        id: product._id, // Convertir _id en id pour uniformiser
+        id: product._id, // Normalisation des IDs
       }));
       setProducts(normalizedProducts);
     } catch (error) {
-      console.error("Erreur lors de la récupération des produits:", error);
+      console.error("Erreur lors de la récupération des produits :", error);
     }
   };
 
@@ -41,15 +38,13 @@ function RoutesPages() {
     fetchProducts();
   }, []);
 
+  // Vérification du rôle de l'utilisateur
   useEffect(() => {
-    const userRole = localStorage.getItem("username"); // Ex: "admin" ou "user"
+    const userRole = localStorage.getItem("username"); // "admin" ou "user"
     if (userRole === "admin") setIsAdmin(true);
   }, []);
 
-  const updateCartLength = (length) => {
-    console.log(`Cart length updated to: ${length}`);
-  };
-
+  // Gestion du panier
   const addToCart = useCallback(
     (product) => {
       if (!cart.some((item) => item.id === product.id)) {
@@ -59,6 +54,32 @@ function RoutesPages() {
     [cart]
   );
 
+  const removeFromCart = useCallback(
+    (product) => {
+      setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));
+    },
+    [cart]
+  );
+
+  const updateCartQuantity = useCallback(
+    (productId, action) => {
+      setCart((prevCart) =>
+        prevCart.map((item) =>
+          item.id === productId
+            ? {
+                ...item,
+                quantity: action === "increase" ? item.quantity + 1 : Math.max(item.quantity - 1, 1),
+              }
+            : item
+        )
+      );
+    },
+    []
+  );
+
+  const isInCart = (productId) => cart.some((item) => item.id === productId);
+
+  // Gestion des favoris
   const addFavorise = useCallback(
     (product) => {
       if (!favoris.some((item) => item.id === product.id)) {
@@ -71,33 +92,10 @@ function RoutesPages() {
   const removeFromFavorise = useCallback(
     (productId) => {
       setFavoris((prevFavoris) => prevFavoris.filter((item) => item.id !== productId));
-      updateCartLength(favoris.length - 1);
     },
     [favoris]
   );
 
-  const removeFromCart = useCallback(
-    (product) => {
-      setCart((prevCart) => prevCart.filter((item) => item.id !== product.id));
-      updateCartLength(cart.length - 1);
-    },
-    [cart]
-  );
-
-  const updateCartQuantity = useCallback(
-    (productId, action) => {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.id === productId
-            ? { ...item, quantity: action === "increase" ? item.quantity + 1 : Math.max(item.quantity - 1, 1) }
-            : item
-        )
-      );
-    },
-    []
-  );
-
-  const isInCart = (productId) => cart.some((item) => item.id === productId);
   const isInFavoris = (productId) => favoris.some((item) => item.id === productId);
 
   return (
@@ -105,17 +103,14 @@ function RoutesPages() {
       {isAdmin ? (
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       ) : (
         <>
-        
           <Navbar favoriteCount={favoris.length} cartCount={cart.length} />
-         
           <main className="min-h-screen">
-         
             <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
               <Route
                 path="/home"
                 element={
@@ -130,24 +125,40 @@ function RoutesPages() {
                   />
                 }
               />
-              <Route path="/product/:id" element={<ProductPage addToCart={addToCart} />} />
-              
+              <Route
+                path="/product/:id"
+                element={
+                  <ProductDetails
+                    addToCart={addToCart}
+                    isInCart={isInCart}
+                    products={products}
+                  />
+                }
+              />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route
                 path="/cart"
-                element={<CartPage cart={cart} updateCartQuantity={updateCartQuantity} removeFromCart={removeFromCart} />}
+                element={
+                  <CartPage
+                    cart={cart}
+                    updateCartQuantity={updateCartQuantity}
+                    removeFromCart={removeFromCart}
+                  />
+                }
               />
-              <Route path="/product" element={<ProductDetails />} />
-
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
               <Route
                 path="/favorites"
                 element={
-                  <FavoritesPage favoris={favoris} removeFromFavorise={removeFromFavorise} addToCart={addToCart} />
+                  <FavoritesPage
+                    favoris={favoris}
+                    removeFromFavorise={removeFromFavorise}
+                    addToCart={addToCart}
+                  />
                 }
               />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
             </Routes>
           </main>
           <Footer />

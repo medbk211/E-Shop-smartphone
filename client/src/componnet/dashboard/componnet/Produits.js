@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllProducts, addProduct, updateProduct, deleteProduct } from './productAPI';
-
+import Spinner from '../../Spinner';
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // Détermine si on modifie un produit
@@ -16,11 +16,14 @@ const ProductList = () => {
   });
   const [showModal, setShowModal] = useState(false); // Afficher ou masquer la modale
   const [toast, setToast] = useState({ message: '', type: '' }); // Gestion des notifications Toast
-
+  const [loading, setLoading] = useState(true);
   const fetchProducts = async () => {
     const response = await getAllProducts();
     setProducts(response.data);
   };
+    useEffect(() => {
+      setTimeout(() => setLoading(false), 500);
+    }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -62,6 +65,7 @@ const ProductList = () => {
   // Gérer l'envoi du formulaire pour ajouter ou modifier un produit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const form = new FormData();
     Object.keys(formData).forEach((key) => {
       if (formData[key] !== null) {
@@ -72,9 +76,11 @@ const ProductList = () => {
     try {
       if (isEditing && currentProduct) {
         await updateProduct(currentProduct._id, form); // Mise à jour du produit
+        setLoading(false);
         setToast({ message: 'Produit mis à jour avec succès !', type: 'success' });
       } else {
         await addProduct(form); // Ajout d'un nouveau produit
+        setLoading(false);
         setToast({ message: 'Produit ajouté avec succès !', type: 'success' });
       }
       fetchProducts();
@@ -82,6 +88,7 @@ const ProductList = () => {
     } catch (error) {
       console.error('Erreur lors de l\'ajout ou la modification du produit:', error);
       setToast({ message: 'Une erreur est survenue.', type: 'error' });
+      setLoading(false);
     }
   };
 
@@ -104,13 +111,16 @@ const ProductList = () => {
   // Gérer la suppression d'un produit
   const handleDelete = async (productId) => {
     if (window.confirm('Voulez-vous vraiment supprimer ce produit ?')) {
+      setLoading(true);
       try {
         await deleteProduct(productId);
+        setLoading(false);
         setToast({ message: 'Produit supprimé avec succès !', type: 'success' });
         fetchProducts();
       } catch (error) {
         console.error('Erreur lors de la suppression du produit :', error);
         setToast({ message: 'Impossible de supprimer le produit.', type: 'error' });
+        setLoading(false);
       }
     }
   };
@@ -128,6 +138,17 @@ const ProductList = () => {
       return () => clearTimeout(timer);
     }
   }, [toast]);
+
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
+        <Spinner />
+      </div>
+    );
+  }
+
 
   return (
     <div className="max-w-6xl mx-auto p-4">

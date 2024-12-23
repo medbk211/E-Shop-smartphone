@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight, FaRegStar, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+// import Spinner from "./Spinner";
 
 const ProductCarousel = ({
   addToCart,
@@ -13,27 +14,56 @@ const ProductCarousel = ({
   removeFromFavorise,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  // const [loading, setLoading] = useState(true);
+
+  // Charger l’état initial avec un spinner
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setLoading(false), 500);
+  //   return () => clearTimeout(timer);
+  // }, []);
+
   const visibleProducts = products.slice(currentIndex, currentIndex + 3);
 
+  // Gestion cyclique des index
   const changeIndex = (direction) => {
-    setCurrentIndex((prev) =>
-      direction === "left"
-        ? (prev === 0 ? products.length - 3 : prev - 1)
-        : (prev + 3 >= products.length ? 0 : prev + 1)
-    );
+    setCurrentIndex((prevIndex) => {
+      const maxIndex = products.length - 1;
+      if (direction === "left") {
+        return (prevIndex - 1 + products.length) % products.length;
+      } else {
+        return (prevIndex + 1) % products.length;
+      }
+    });
   };
 
   const toggleFavorite = (product) => {
-    isInFavoris(product.id) ? removeFromFavorise(product.id) : addFavorise(product);
+    if (isInFavoris(product.id)) {
+      removeFromFavorise(product.id);
+    } else {
+      addFavorise(product);
+    }
   };
 
   const toggleCart = (product) => {
-    isInCart(product.id) ? removeFromCart(product) : addToCart(product);
+    if (isInCart(product.id)) {
+      removeFromCart(product);
+    } else {
+      addToCart(product);
+    }
   };
 
   if (products.length === 0) {
     return <div className="text-center p-4">Aucun produit disponible</div>;
   }
+
+  // if (loading) {
+  //   return (
+  //     <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
+  //       <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-[#f0f0f0] py-8 relative">
@@ -41,6 +71,7 @@ const ProductCarousel = ({
         <h2 className="text-2xl font-semibold text-[#007BFF] text-center mb-6">
           <span className="text-yellow-500">📱</span> Nos accessoires recommandés
         </h2>
+
         <div className="relative">
           {/* Bouton gauche */}
           <motion.button
@@ -94,16 +125,12 @@ const ProductCarousel = ({
                 <div className="flex justify-between p-4 border-t">
                   <button onClick={() => toggleFavorite(product)}>
                     <FaRegStar
-                      className={`text-2xl transition-colors duration-300 ${
-                        isInFavoris(product.id) ? "text-yellow-500" : "text-gray-400"
-                      }`}
+                      className={`text-2xl transition-colors duration-300 ${isInFavoris(product.id) ? "text-yellow-500" : "text-gray-400"}`}
                     />
                   </button>
                   <button onClick={() => toggleCart(product)}>
                     <FaShoppingCart
-                      className={`text-2xl transition-colors duration-300 ${
-                        isInCart(product.id) ? "text-yellow-500" : "text-gray-400"
-                      }`}
+                      className={`text-2xl transition-colors duration-300 ${isInCart(product.id) ? "text-yellow-500" : "text-gray-400"}`}
                     />
                   </button>
                 </div>
@@ -126,11 +153,10 @@ const ProductCarousel = ({
           {products.map((_, index) => (
             <span
               key={index}
-              className={`w-2 h-2 mx-1 rounded-full ${
-                index >= currentIndex && index < currentIndex + 3
+              className={`w-2 h-2 mx-1 rounded-full ${index >= currentIndex && index < currentIndex + 3
                   ? "bg-blue-500"
                   : "bg-gray-300"
-              }`}
+                }`}
             ></span>
           ))}
         </div>

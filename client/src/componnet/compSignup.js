@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'; 
 
-import React, { useState } from 'react'; 
+import React, { useState,useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import { motion } from 'framer-motion'; 
+import Spinner from './Spinner';
 import api from '../api/axiosConfig'
 
 const SignUp = () => {
@@ -10,18 +11,34 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 500);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await api.post('auth/signup', { username, email, password });
+      setLoading(false);
       navigate('/login');
     } catch (err) {
       setError('Failed to sign up');
+      setLoading(false);
       setTimeout(() => setError(''), 1000);
     }
   };
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
+        <Spinner />
+      </div>
+    );
+  }
+   
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">

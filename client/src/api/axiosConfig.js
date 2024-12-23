@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://back-end-fehk.onrender.com/api', // URL de votre back-end déployé
+  baseURL: 'https://back-end-1rc6.onrender.com/api', // URL de votre back-end déployé
 });
 
 // Ajouter un intercepteur pour inclure un token si nécessaire

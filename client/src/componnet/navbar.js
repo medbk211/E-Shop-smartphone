@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import Spinner from './Spinner';
 import {
   FaAppleAlt,
   FaShoppingBasket,
@@ -36,6 +37,7 @@ const Navbar = ({ favoriteCount = 0, cartCount = 0 }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [username, setUsername] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const menuRef = useOutsideClick(() => setIsMenuOpen(false));
   const profileMenuRef = useOutsideClick(() => setIsProfileMenuOpen(false));
@@ -49,6 +51,12 @@ const Navbar = ({ favoriteCount = 0, cartCount = 0 }) => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) setIsDarkMode(savedTheme === "dark");
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
+  
 
   // Toggle theme
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
@@ -66,17 +74,31 @@ const Navbar = ({ favoriteCount = 0, cartCount = 0 }) => {
 
   // Logout handler
   const handleLogout = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("token");
-    setUsername(null);
-    setIsProfileMenuOpen(false);
+    setLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem("username");
+      localStorage.removeItem("token");
+      setUsername(null);
+      setIsProfileMenuOpen(false);
+      setLoading(false);
+    }, 1000); // 1 seconde de délai
   };
+  
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good Morning';
     if (hour < 18) return 'Good Afternoon';
     return 'Good Evening';
   };
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
+        <Spinner />
+      </div>
+    );
+  }
+  
 
   return (
     <header
