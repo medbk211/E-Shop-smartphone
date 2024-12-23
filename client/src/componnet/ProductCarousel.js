@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight, FaRegStar, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-// import Spinner from "./Spinner";
+
 
 const ProductCarousel = ({
   addToCart,
@@ -14,7 +14,7 @@ const ProductCarousel = ({
   removeFromFavorise,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   // Charger l’état initial avec un spinner
   // useEffect(() => {

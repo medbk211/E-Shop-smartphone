@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 const ProductDetails = ({ products, addToCart, isInCart }) => {
-  const { id } = useParams(); // Récupère l'ID depuis l'URL
-  const product = products.find((p) => p.id === id); // Trouve le produit correspondant
+  const { id } = useParams(); // Récupère l'ID du produit dans l'URL
+  const [product, setProduct] = useState(null); // État pour stocker le produit
+  const [loading, setLoading] = useState(true); // État pour suivre l'état de chargement
+  const [error, setError] = useState(null); // État pour les erreurs
+
+  useEffect(() => {
+    setLoading(true);
+    const foundProduct = products.find((p) => p.id === id); // Cherche le produit par ID
+
+    if (foundProduct) {
+      setProduct(foundProduct);
+      setError(null);
+    } else {
+      setError("Produit non trouvé");
+    }
+
+    setLoading(false);
+  }, [id, products]); // Recharger les données quand l'ID ou les produits changent
+
+  // Si le produit n'est pas encore chargé, afficher un message de chargement
+  if (loading) return <div>Chargement...</div>;
+
+  // Si une erreur est survenue, afficher l'erreur
+  if (error) return <div>{error}</div>;
+
+  // Si le produit n'est pas trouvé, afficher un message d'erreur
+  if (!product) return <div>Produit non disponible.</div>;
 
   // Variants pour les animations
   const containerVariants = {
@@ -35,14 +59,7 @@ const ProductDetails = ({ products, addToCart, isInCart }) => {
       initial="hidden"
       animate="visible"
     >
-      <div className="max-w-6xl my-20 mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-
-        <Link to="/home">
-                      <button className="relative text-green-500 mt-4 hover:underline flex items-center">
-                        &larr; Continuer mes achats
-                      </button>
-                    </Link>
-
+      <div className="max-w-6xl mx-auto my-28 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Section Image */}
         <motion.div className="space-y-4" whileHover="hover" variants={imageVariants}>
           <img
@@ -61,11 +78,7 @@ const ProductDetails = ({ products, addToCart, isInCart }) => {
             {[...Array(5)].map((_, index) => (
               <FaStar
                 key={index}
-                className={
-                  index < product.rating
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                }
+                className={index < product.rating ? "text-yellow-400" : "text-gray-300"}
               />
             ))}
             <span className="ml-2 text-gray-600">({product.ratingCount} avis)</span>
