@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight, FaRegStar, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Spinner from "./Spinner";
 
 
 const ProductCarousel = ({
@@ -17,10 +18,10 @@ const ProductCarousel = ({
   const [loading, setLoading] = useState(true);
 
   // Charger l’état initial avec un spinner
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setLoading(false), 500);
-  //   return () => clearTimeout(timer);
-  // }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const visibleProducts = products.slice(currentIndex, currentIndex + 3);
 
@@ -56,14 +57,14 @@ const ProductCarousel = ({
     return <div className="text-center p-4">Aucun produit disponible</div>;
   }
 
-  // if (loading) {
-  //   return (
-  //     <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
-  //       <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-transparent z-50">
+        <div className="absolute inset-0 bg-gray-800 bg-opacity-40"></div>
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#f0f0f0] py-8 relative">
